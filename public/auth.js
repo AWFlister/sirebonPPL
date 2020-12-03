@@ -13,7 +13,8 @@ if(registerPasien){
         const dokter = registerPasien[name = 'dokter'].value;
 
         db.collection('dokter').where('nama','==', dokter).get().then((doc) => {
-            if(doc.length > 0){
+            console.log(doc)
+            if(!doc.empty){
                 doc.forEach(snap => {
                     auth.createUserWithEmailAndPassword(email, psw).then( () =>{
 
@@ -101,7 +102,10 @@ if(loginPasien){
                     auth.signInWithEmailAndPassword(email, psw).then( () =>{
                         alert('Login Succesfull!');
                         window.location.href='jadwal.html'
-                    }) 
+                    }).catch(() => {
+                        alert('Password salah!')
+                        loginPasien.reset()
+                    })
                 }
                 else{
                     alert('User tidak ditemukan!');
@@ -134,7 +138,10 @@ if(loginDokter){
                 auth.signInWithEmailAndPassword(email, psw).then( () =>{
                     alert('Login Succesfull!');
                     window.location.href='daftarpasien.html'
-                }) 
+                }).catch(() => {
+                    alert('Password salah!')
+                    loginPasien.reset()
+                })
             }
             else{
                 alert('User tidak ditemukan!');
